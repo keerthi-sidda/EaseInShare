@@ -1,0 +1,21 @@
+const nodemailer = require('nodemailer');
+
+async function sendMail({from, to, subject, text, html}) {
+    let transporter = nodemailer.createTransport({
+         service: process.env.SMTP_HOST,
+         auth: {
+             user: process.env.MAIL_USER,
+             pass: process.env.MAIL_PASS
+         }
+    });
+
+    let info = await transporter.sendMail({
+        from: `EaseInShare <${from}>`, // sender address
+        to: to, // list of receivers
+        subject: subject, // Subject line
+        text: text, // plain text body
+        html: html // html body
+    })
+}
+
+module.exports = sendMail;
